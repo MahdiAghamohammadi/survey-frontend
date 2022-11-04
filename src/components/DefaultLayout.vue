@@ -122,8 +122,12 @@ const navigation = [
 ];
 
 function logout() {
-    store.commit('logout');
-    router.push('Login')
+    store.dispatch('logout')
+        .then(() => {
+            router.push({
+                name: 'Login'
+            })
+        })
 }
 
 </script>
