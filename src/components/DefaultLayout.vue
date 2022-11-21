@@ -111,6 +111,7 @@
         </Disclosure>
 
         <router-view></router-view>
+        <Notification />
     </div>
 </template>
   
@@ -120,6 +121,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import Notification from './Notification.vue';
 
 const store = useStore();
 const router = useRouter();

@@ -19,8 +19,11 @@
                 </router-link>
             </div>
         </template>
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
+
+        <div v-if="surveys.loading" class="flex justify-center">Loading....</div>
+        <div v-else class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
             <SurveyListItem v-for="(survey, ind) in surveys.data" :key="ind" :survey="survey"
+                class="opacity-0 animate-fade-in-down" :style="{ animationDelay: `${ind * 0.1}s` }"
                 @delete="deleteSurvey(survey)" />
         </div>
     </PageComponent>
