@@ -76,7 +76,7 @@
             <label for="question_type" class="block text-sm font-medium text-gray-700">Select Question Type</label>
             <select id="question_type" name="question_type" v-model="model.type" @change="typeChange"
                 class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <option v-for="type in questionTypes" :key="type" :value="type">
+                <option v-for="(type, index) in questionTypes" :key="index" :value="type">
                     {{ upperCaseFirst(type) }}
                 </option>
             </select>

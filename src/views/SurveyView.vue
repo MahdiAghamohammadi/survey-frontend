@@ -150,7 +150,7 @@ import store from '../store';
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PageComponent from '../components/PageComponent.vue';
-import QuestionEditorVue from '../components/editor/QuestionEditor.vue';
+import QuestionEditor from '../components/editor/QuestionEditor.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -233,7 +233,7 @@ function saveSurvey() {
             message: "The survey was successfully " + action,
         });
         router.push({
-            name: "Surveys",
+            name: "SurveyView",
             params: { id: data.data.id },
         });
     });

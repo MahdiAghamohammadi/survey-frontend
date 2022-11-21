@@ -98,18 +98,18 @@ const store = createStore({
       state.user.data = userData.data.user;
       sessionStorage.setItem("TOKEN", userData.data.token);
     },
+    setSurveysLoading: (state, loading) => {
+      state.surveys.loading = loading;
+    },
+    setSurveys: (state, surveys) => {
+      state.surveys.links = surveys.meta.links;
+      state.surveys.data = surveys.data;
+    },
     setCurrentSurveyLoading: (state, loading) => {
       state.currentSurvey.loading = loading;
     },
     setCurrentSurvey: (state, survey) => {
       state.currentSurvey.data = survey.data;
-    },
-    setSurveysLoading: (state, loading) => {
-      state.surveys.loading = loading;
-    },
-    setSurveys: (state, surveys) => {
-      // state.surveys.links = surveys.meta.links;
-      state.surveys.data = surveys.data;
     },
   },
   modules: {},
