@@ -62,6 +62,20 @@ const store = createStore({
 
       return response;
     },
+    getSurveyBySlug({ commit }, slug) {
+      commit("setCurrentSurveyLoading", true);
+      return axiosClient
+        .get(`/survey-by-slug/${slug}`)
+        .then((res) => {
+          commit("setCurrentSurvey", res.data);
+          commit("setCurrentSurveyLoading", false);
+          return res;
+        })
+        .catch((err) => {
+          commit("setCurrentSurveyLoading", false);
+          throw err;
+        });
+    },
     getSurvey({ commit }, id) {
       commit("setCurrentSurveyLoading", true);
       return axiosClient
@@ -90,6 +104,9 @@ const store = createStore({
         dispatch("getSurveys");
         return res;
       });
+    },
+    saveSurveyAnswer({ commit }, { surveyId, answers }) {
+      return axiosClient.post(`/survey/${surveyId}/answer`, { answers });
     },
   },
   mutations: {
