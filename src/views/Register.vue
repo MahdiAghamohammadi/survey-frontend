@@ -13,17 +13,13 @@
         </p>
     </div>
     <form class="mt-8 space-y-6" @submit="register">
-        <div v-if="errorMsg" class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded">
-            {{ errorMsg }}
-            <span @click="errorMsg = ''"
-                class="cursor-pointer w-8 h-8 flex items-center justify-center rounded-full transition-colors hover:bg-[rgba(0,0,0,0.1)]">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </span>
-        </div>
-        <input type="hidden" name="remember" value="true" />
+        <Alert v-if="Object.keys(errors).length" class="flex-col items-stretch text-sm">
+            <div v-for="(field, i) of Object.keys(errors)" :key="i">
+                <div v-for="(error, ind) of errors[field] || []" :key="ind">
+                    * {{ error }}
+                </div>
+            </div>
+        </Alert>
         <div class="-space-y-px rounded-md shadow-sm">
             <div>
                 <label for="full-name" class="sr-only">Full Name</label>
@@ -55,13 +51,12 @@
         </div>
 
         <div>
-            <button type="submit"
-                class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <TButtonLoading :loading="loading" class="w-full relative justify-center">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                     <LockClosedIcon class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                 </span>
                 Sign up
-            </button>
+            </TButtonLoading>
         </div>
     </form>
 </template>
@@ -71,6 +66,8 @@ import { LockClosedIcon } from '@heroicons/vue/20/solid'
 import { useRouter } from 'vue-router';
 import store from '../store';
 import { ref } from 'vue';
+import TButtonLoading from "../components/core/TButtonLoading.vue";
+import Alert from "../components/Alert.vue";
 
 const router = useRouter();
 const user = {
@@ -79,18 +76,25 @@ const user = {
     password: '',
     password_confirmation: '',
 }
-let errorMsg = ref('');
+const loading = ref(false);
+let errors = ref({});
 
 function register(ev) {
     ev.preventDefault();
+
+    loading.value = true;
     store.dispatch('register', user)
         .then((res) => {
+            loading.value = false;
             router.push({
                 name: 'Dashboard'
             })
         })
         .catch(err => {
-            errorMsg.value = err.response.data.message;
+            loading.value = false;
+            if (err.response.status === 422) {
+                errors.value = err.response.data.errors;
+            }
         })
 }
 </script>
