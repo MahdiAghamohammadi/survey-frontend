@@ -31,13 +31,15 @@ const store = createStore({
   actions: {
     register({ commit }, user) {
       return axiosClient.post("/register", user).then(({ data }) => {
-        commit("setUser", data);
+        commit("setUser", data.data.user);
+        commit("setToken", data.data.token);
         return data;
       });
     },
     login({ commit }, user) {
       return axiosClient.post("/login", user).then(({ data }) => {
-        commit("setUser", data);
+        commit("setUser", data.data.user);
+        commit("setToken", data.data.token);
         return data;
       });
     },
@@ -45,6 +47,12 @@ const store = createStore({
       return axiosClient.post("/logout").then((res) => {
         commit("logout");
         return res;
+      });
+    },
+    getUser({ commit }) {
+      return axiosClient.get("/user").then((res) => {
+        console.log(res);
+        commit("setUser", res.data);
       });
     },
     getDashboardData({ commit }) {
@@ -133,10 +141,12 @@ const store = createStore({
       state.user.token = null;
       sessionStorage.removeItem("TOKEN");
     },
-    setUser: (state, userData) => {
-      state.user.token = userData.data.token;
-      state.user.data = userData.data.user;
-      sessionStorage.setItem("TOKEN", userData.data.token);
+    setUser: (state, user) => {
+      state.user.data = user;
+    },
+    setToken: (state, token) => {
+      state.user.token = token;
+      sessionStorage.setItem("TOKEN", token);
     },
     dashboardLoading: (state, loading) => {
       state.dashboard.loading = loading;
