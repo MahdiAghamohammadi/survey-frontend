@@ -5,7 +5,9 @@
             <DashboardCard style="animation-delay: 0.3s">
                 <template v-slot:title>
                     <div class="flex justify-between items-center mb-3 px-2">
-                        <h3 class="text-2xl font-semibold">All Answers</h3>
+                        <h3 class="text-2xl font-semibold">
+                            {{ route.params.id ? 'All Answer By Survey' : 'All Answers' }}
+                        </h3>
                     </div>
                 </template>
 
@@ -32,13 +34,19 @@ import DashboardCard from "../components/core/DashboardCard.vue";
 import PageComponent from "../components/PageComponent.vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
 const store = useStore();
+const route = useRoute();
 
 const loading = computed(() => store.state.answers.loading);
 const data = computed(() => store.state.answers.data);
 
-store.dispatch("getAllAnswers");
+if (route.params.id) {
+    store.dispatch("getAllAnswersById", route.params.id);
+} else {
+    store.dispatch("getAllAnswers");
+}
 </script>
 
 <style>

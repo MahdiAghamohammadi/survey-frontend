@@ -87,6 +87,20 @@ const store = createStore({
           return error;
         });
     },
+    getAllAnswersById({ commit }, id) {
+      commit("AnswersLoading", true);
+      return axiosClient
+        .get(`/survey/${id}/answers`)
+        .then((res) => {
+          commit("AnswersLoading", false);
+          commit("setAnswersData", res.data);
+          return res;
+        })
+        .catch((error) => {
+          commit("AnswersLoading", false);
+          return error;
+        });
+    },
     saveSurvey({ commit, dispatch }, survey) {
       delete survey.image_url;
       let response;

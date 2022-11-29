@@ -22,6 +22,11 @@ const routes = [
       { path: "/surveys/create", name: "SurveyCreate", component: SurveyView },
       { path: "/surveys/:id", name: "SurveyView", component: SurveyView },
       { path: "/answers", name: "AnswersView", component: AnswersView },
+      {
+        path: "/surveys/:id/answers",
+        name: "AnswersViewById",
+        component: AnswersView,
+      },
     ],
   },
   {

@@ -45,7 +45,7 @@
                             Edit Survey
                         </TButton>
 
-                        <TButton link>
+                        <TButton :to="{ name: 'AnswersViewById', params: { id: data.latestSurvey.id } }" link>
                             <EyeIcon class="w-5 h-5 mr-2" />
                             View Answers
                         </TButton>

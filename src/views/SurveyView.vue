@@ -5,16 +5,16 @@
                 <h1 class="text-3xl font-bold text-gray-900">
                     {{ route.params.id ? model.title : "Create a Survey" }}
                 </h1>
-                <button v-if="route.params.id" type="submit" @click="deleteSurvey()"
-                    class="py-2 px-2 text-white bg-red-500 rounded-md hover:bg-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                        class="w-5 h-5 inline-block -mt-1">
-                        <path fill-rule="evenodd"
-                            d="M16.5 4.478v.227a48.816 48.816 0 013.878.512.75.75 0 11-.256 1.478l-.209-.035-1.005 13.07a3 3 0 01-2.991 2.77H8.084a3 3 0 01-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 01-.256-1.478A48.567 48.567 0 017.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 013.369 0c1.603.051 2.815 1.387 2.815 2.951zm-6.136-1.452a51.196 51.196 0 013.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 00-6 0v-.113c0-.794.609-1.428 1.364-1.452zm-.355 5.945a.75.75 0 10-1.5.058l.347 9a.75.75 0 101.499-.058l-.346-9zm5.48.058a.75.75 0 10-1.498-.058l-.347 9a.75.75 0 001.5.058l.345-9z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Delete Survey
-                </button>
+                <div class="flex">
+                    <TButton v-if="model.slug" link :href="`/view/survey/${model.slug}`" target="_blank" class="mr-2">
+                        <LinkIcon class="w-5 h-5 mr-1" />
+                        View Public link
+                    </TButton>
+                    <TButton v-if="route.params.id" color="red" @click="deleteSurvey()">
+                        <TrashIcon class="w-5 h-5 mr-2" />
+                        Delete
+                    </TButton>
+                </div>
             </div>
         </template>
         <div v-if="surveyLoading" class="flex justify-center">Loading....</div>
@@ -120,24 +120,10 @@
                 </div>
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button type="submit" class="
-                    inline-flex 
-                    justify-center 
-                    py-2 
-                    px-2 
-                    border border-transparent 
-                    shadow-sm 
-                    text-sm 
-                    font-medium rounded-md 
-                    text-white 
-                    bg-indigo-600 
-                    hover:bg-indigo-700 
-                    focus:outline-none 
-                    focus:ring-2 
-                    focus:ring-offset-2 
-                    focus:ring-indigo-500">
+                    <TButton>
+                        <ArrowDownIcon class="w-5 h-5 mr-2" />
                         Save
-                    </button>
+                    </TButton>
                 </div>
             </div>
         </form>
@@ -151,6 +137,8 @@ import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import PageComponent from '../components/PageComponent.vue';
 import QuestionEditor from '../components/editor/QuestionEditor.vue';
+import TButton from "../components/core/TButton.vue";
+import { TrashIcon, LinkIcon, ArrowDownIcon } from "@heroicons/vue/24/solid";
 
 const route = useRoute();
 const router = useRouter();
