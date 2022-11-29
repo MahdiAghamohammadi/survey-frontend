@@ -11,6 +11,10 @@ const store = createStore({
       loading: false,
       data: {},
     },
+    answers: {
+      loading: false,
+      data: {},
+    },
     surveys: {
       loading: false,
       links: [],
@@ -66,6 +70,20 @@ const store = createStore({
         })
         .catch((error) => {
           commit("dashboardLoading", false);
+          return error;
+        });
+    },
+    getAllAnswers({ commit }) {
+      commit("AnswersLoading", true);
+      return axiosClient
+        .get(`/show-all-answers`)
+        .then((res) => {
+          commit("AnswersLoading", false);
+          commit("setAnswersData", res.data);
+          return res;
+        })
+        .catch((error) => {
+          commit("AnswersLoading", false);
           return error;
         });
     },
@@ -153,6 +171,12 @@ const store = createStore({
     },
     setDashboardData: (state, data) => {
       state.dashboard.data = data;
+    },
+    AnswersLoading: (state, loading) => {
+      state.answers.loading = loading;
+    },
+    setAnswersData: (state, data) => {
+      state.answers.data = data;
     },
     setSurveysLoading: (state, loading) => {
       state.surveys.loading = loading;

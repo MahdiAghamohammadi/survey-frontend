@@ -60,9 +60,10 @@
                     <div class="flex justify-between items-center mb-3 px-2">
                         <h3 class="text-2xl font-semibold">Latest Answers</h3>
 
-                        <a href="javascript:void(0)" class="text-sm text-blue-500 hover:decoration-blue-500">
+                        <router-link :to="{ name: 'AnswersView' }"
+                            class="text-sm text-blue-500 hover:decoration-blue-500">
                             View all
-                        </a>
+                        </router-link>
                     </div>
                 </template>
 
