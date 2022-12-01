@@ -68,13 +68,14 @@
                 </template>
 
                 <div v-if="data.latestAnswers.length" class="text-left">
-                    <a href="#" v-for="answer of data.latestAnswers" :key="answer.id"
-                        class="block p-2 hover:bg-gray-100/90">
-                        <div class="font-semibold">{{ answer.survey.title }}</div>
-                        <small>
-                            Answer Made at:
-                            <i class="font-semibold">{{ answer.end_date }}</i>
-                        </small>
+                    <a v-for="answer of data.latestAnswers" :key="answer.id" class="block p-2 hover:bg-gray-100/90">
+                        <router-link :to="{ name: 'AnswerDetails', params: { sid: answer.survey.id, aid: answer.id } }">
+                            <div class="font-semibold">{{ answer.survey.title }}</div>
+                            <small>
+                                Answer Made at:
+                                <i class="font-semibold">{{ answer.end_date }}</i>
+                            </small>
+                        </router-link>
                     </a>
                 </div>
                 <div v-else class="text-gray-600 text-center py-16">
