@@ -2,6 +2,9 @@
     <PageComponent title="All Answers">
         <div v-if="loading" class="flex justify-center">Loading...</div>
         <div v-else>
+            <div class="text-gray-700 p-4 text-xl">
+                <p>Author : {{ data.author }}</p>
+            </div>
             <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

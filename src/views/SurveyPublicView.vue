@@ -21,6 +21,12 @@
             </div>
             <div v-else>
                 <hr class="my-3">
+                <div>
+                    <label for="author">Author</label>
+                    <input type="text" v-model="author" id="author"
+                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                </div>
+                <hr class="my-3">
                 <div v-for="(question, ind) of survey.questions" :key="question.id">
                     <QuestionViewer v-model="answers[question.id]" :question="question" :index="ind" />
                 </div>
@@ -49,6 +55,8 @@ const surveyFinished = ref(false);
 
 const answers = ref({});
 
+const author = ref('');
+
 store.dispatch("getSurveyBySlug", route.params.slug);
 
 function submitSurvey() {
@@ -57,6 +65,7 @@ function submitSurvey() {
         .dispatch("saveSurveyAnswer", {
             surveyId: survey.value.id,
             answers: answers.value,
+            author: author.value
         })
         .then((response) => {
             if (response.status === 201) {
