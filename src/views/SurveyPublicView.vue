@@ -12,6 +12,22 @@
                 </div>
             </div>
 
+            <Alert v-if="Object.keys(errors).length" class="flex-col items-stretch text-sm mt-2">
+                <span @click="errors = ''"
+                    class="w-6 h-6 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-[rgba(0,0,0,0.2)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </span>
+                <div v-for="(field, i) of Object.keys(errors)" :key="i">
+                    <div v-for="(error, ind) of errors[field] || []" :key="ind">
+                        * {{ error }}
+                    </div>
+                </div>
+            </Alert>
+
             <div v-if="surveyFinished" class="py-8 px-6 bg-emerald-400 text-white w-[600px] mx-auto">
                 <div class="text-xl mb-3 font-semibold ">Thank you for participating in this survey.</div>
                 <button @click="submitAnotherResponse" type="button"
@@ -45,6 +61,8 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import QuestionViewer from "../components/viewer/QuestionViewer.vue";
+import Alert from "../components/Alert.vue";
+
 const route = useRoute();
 const store = useStore();
 
@@ -56,6 +74,8 @@ const surveyFinished = ref(false);
 const answers = ref({});
 
 const author = ref('');
+
+let errors = ref({});
 
 store.dispatch("getSurveyBySlug", route.params.slug);
 
@@ -71,7 +91,11 @@ function submitSurvey() {
             if (response.status === 201) {
                 surveyFinished.value = true;
             }
-        });
+        }).catch(err => {
+            if (err.response.status === 422) {
+                errors.value = err.response.data.errors;
+            }
+        })
 }
 
 function submitAnotherResponse() {
