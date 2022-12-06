@@ -13,7 +13,7 @@
                             <div class="ml-10 flex items-baseline space-x-4">
                                 <router-link v-for="item in navigation" :key="item.name" :to="item.to"
                                     active-class="bg-gray-900 text-white" :class="[
-                                        this.$route.name === item.to.name
+                                        route.name === item.to.name
                                             ? ''
                                             : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium'
                                     ]">{{ item.name }}
@@ -83,7 +83,7 @@
                 <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
                     <router-link v-for="item in navigation" :key="item.name" :to="item.to"
                         active-class="bg-gray-900 text-white" :class="[
-                            this.$route.name === item.to.name
+                            route.name === item.to.name
                                 ? ''
                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium'
                         ]">{{ item.name }}</router-link>
@@ -128,12 +128,13 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Notification from './Notification.vue';
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 const user = computed(() => store.state.user.data);
 const navigation = [
     { name: 'Dashboard', to: { name: 'Dashboard' } },
